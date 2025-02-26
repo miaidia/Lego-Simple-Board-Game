@@ -1,7 +1,5 @@
 # LEGO Star Wars RPG – Simplified Rules for Children (Ages 3++)
 
-# Rules sample  
-
 ## 🎯 **Game Objective:**
 Complete missions in the LEGO Star Wars universe – defeat droids, rescue friends, and collect mission bricks!
 
@@ -24,14 +22,11 @@ Each character has two columns of bricks (trackers):
 - Place obstacles and enemies along the way.  
 
 ### 4. **Character Dice:**
-Each character has a custom die with images:  
-- **Jedi:** 5x sword, 1x foot  
-- **Droid:** 2x blaster, 4x foot  
-- **Clone Trooper:** 4x blaster, 2x foot  
+All characters use the same custom die with images:  
+- 3x 🗡️ **Sword/Blaster** – used for attacking or defending  
+- 3x 🦵 **Foot** – used for movement or evasion  
 
-> You can 3D print the dice with large, colorful symbols for better visibility.
-
----
+> You can 3D print the dice with large, colorful symbols for better visibility.---
 
 ## 🕹️ **Gameplay:**
 
@@ -45,16 +40,18 @@ Each character has a custom die with images:
    - If there’s an enemy on an adjacent space, roll your die:  
      - 🗡️ **Sword/Blaster:** Enemy loses 1 health.  
      - 🦵 **Foot:** The enemy counterattacks – you lose 1 health.  
+   - **Jedi Special Rule:** The Jedi can avoid an incoming attack by rolling the die again. If a 🗡️ (sword) is rolled, the attack is successfully evaded.  
 
 3. **Special Ability (if you have ⭐):**  
-   - **Jedi:** Move 2 spaces.  
-   - **Droid:** Repair 1 lost health (once per game).  
+   - **Jedi:** Move 2 spaces, can avoid an incoming attack.
+   - **Droid:** Repair 1 lost health (once per game).
+           - R2-D2 can deactivate another droids as long as he dont move
+           - C3PO - cannot be attact by soldiers
+           ... and so on :)
    - **Clone Trooper:** Attack from a distance of 2 spaces.  
 
 4. **End of Turn:**  
-   - Remove spent ⭐ bricks from your character board.  
-
----
+   - Remove spent ⭐ bricks from your character board.  ---
 
 ## 🏆 **Winning and Losing Conditions:**
 - ✅ **Win:** Complete the mission (e.g., reach the ship, defeat all enemies, rescue a friend).  
@@ -96,7 +93,6 @@ Navigate the board, bypassing droids and obstacles, to reach the ship.
 
 ## 🚀 **Ready to Play?**
 Pick your character, prepare the dice and board, and set off on an intergalactic LEGO Star Wars adventure! 🌌✨
-
 
 
 ## Trademark Notice
