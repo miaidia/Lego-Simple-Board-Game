@@ -1,0 +1,604 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #222;
+    color: #fff;
+    overflow: hidden;
+}
+
+#game-container {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+}
+
+#game-canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+/* Character Selection Overlay */
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+}
+
+.selection-container {
+    background: linear-gradient(to bottom, rgba(0, 10, 25, 0.7), rgba(0, 5, 15, 0.8));
+    border-radius: 10px;
+    padding: 40px;
+    max-width: 800px;
+    width: 80%;
+    text-align: center;
+    box-shadow: 
+        0 0 50px rgba(0, 100, 255, 0.5),
+        0 0 100px rgba(0, 50, 100, 0.3);
+    border: 2px solid rgba(0, 100, 255, 0.6);
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(3px);
+}
+
+.selection-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(to right, transparent, #0066ff, #44ccff, #0066ff, transparent);
+}
+
+.selection-container::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(to right, transparent, #0066ff, #44ccff, #0066ff, transparent);
+}
+
+.selection-container h2 {
+    font-size: 32px;
+    margin-bottom: 30px;
+    color: #44ccff;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    text-shadow: 0 0 15px rgba(0, 150, 255, 0.8);
+    position: relative;
+    display: inline-block;
+    font-family: 'Arial', sans-serif;
+    font-weight: 800;
+}
+
+.selection-container h2::before,
+.selection-container h2::after {
+    content: '⬛';
+    color: #4488ff;
+    font-size: 20px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.selection-container h2::before {
+    left: -40px;
+}
+
+.selection-container h2::after {
+    right: -40px;
+}
+
+.character-options {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+}
+
+.character-option {
+    background: linear-gradient(to bottom, rgba(0, 15, 40, 0.6), rgba(0, 5, 20, 0.7));
+    border-radius: 8px;
+    padding: 25px 20px;
+    width: 220px;
+    margin: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid rgba(0, 100, 255, 0.3);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+}
+
+.character-option::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(0, 150, 255, 0.2), transparent);
+    transition: 0.5s;
+}
+
+.character-option:hover::before {
+    left: 100%;
+}
+
+.character-option:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 150, 255, 0.6);
+    border-color: rgba(0, 150, 255, 0.8);
+}
+
+.character-option.selected {
+    background: linear-gradient(to bottom, rgba(0, 30, 80, 0.8), rgba(0, 10, 40, 0.9));
+    box-shadow: 0 0 25px rgba(0, 150, 255, 0.8);
+    border: 2px solid rgba(0, 200, 255, 1);
+    transform: translateY(-8px);
+}
+
+.character-icon {
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 20px;
+    border-radius: 8px;
+    position: relative;
+    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5), 0 8px 15px rgba(0, 0, 0, 0.3);
+    border: 3px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.character-icon::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 15px;
+    bottom: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.3);
+    z-index: 1;
+}
+
+.character-icon.jedi {
+    background: linear-gradient(135deg, #4466ff, #2233aa);
+    position: relative;
+}
+
+.character-icon.jedi::after {
+    content: '';
+    position: absolute;
+    top: 60%;
+    left: 50%;
+    width: 10px;
+    height: 70px;
+    background-color: #00ff00;
+    transform: translateX(-50%);
+    box-shadow: 0 0 15px #00ff00, 0 0 30px #00ff00;
+    z-index: 2;
+}
+
+.character-icon.droid {
+    background: linear-gradient(135deg, #ffdd44, #cc9900);
+    position: relative;
+}
+
+.character-icon.droid::after {
+    content: '';
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    width: 50px;
+    height: 25px;
+    background-color: #00ffff;
+    transform: translateX(-50%);
+    border-radius: 10px;
+    box-shadow: 0 0 15px #00ffff;
+    z-index: 2;
+}
+
+.character-icon.clone {
+    background: linear-gradient(135deg, #ffffff, #aaaaaa);
+    position: relative;
+}
+
+.character-icon.clone::after {
+    content: '';
+    position: absolute;
+    top: 70%;
+    left: 50%;
+    width: 50px;
+    height: 12px;
+    background-color: #ff3333;
+    transform: translateX(-50%);
+    box-shadow: 0 0 15px #ff3333;
+    z-index: 2;
+}
+
+.character-option h3 {
+    font-size: 24px;
+    margin-bottom: 15px;
+    color: #44ccff;
+    text-shadow: 0 0 10px rgba(0, 150, 255, 0.8);
+    position: relative;
+    display: inline-block;
+}
+
+.character-option p {
+    font-size: 15px;
+    color: #ccddff;
+    line-height: 1.4;
+    position: relative;
+    padding-top: 10px;
+}
+
+.character-option p::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 30%;
+    right: 30%;
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(68, 136, 255, 0.5), transparent);
+}
+
+#start-game {
+    background: linear-gradient(to bottom, #0088ff, #0044cc);
+    color: white;
+    border: none;
+    padding: 15px 40px;
+    border-radius: 8px;
+    font-size: 20px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5), 0 0 25px rgba(0, 150, 255, 0.6);
+    position: relative;
+    overflow: hidden;
+}
+
+#start-game::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: 0.5s;
+}
+
+#start-game:hover::before {
+    left: 100%;
+}
+
+#start-game:hover {
+    background: linear-gradient(to bottom, #00aaff, #0066dd);
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6), 0 0 30px rgba(0, 150, 255, 0.8);
+}
+
+/* Action Bar (New Bottom UI) */
+#action-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.2), rgba(10, 20, 40, 0.9));
+    display: none; /* Initially hidden, will be shown when game starts */
+    justify-content: space-between;
+    padding: 15px 25px;
+    z-index: 10;
+    border-top: 2px solid #4488ff;
+    box-shadow: 0 -5px 15px rgba(68, 136, 255, 0.3);
+    backdrop-filter: blur(5px);
+    font-family: 'Arial', sans-serif;
+}
+
+.action-section {
+    flex: 1;
+    padding: 0 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+}
+
+.action-section::after {
+    content: '';
+    position: absolute;
+    top: -15px;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(to right, transparent, #4488ff, transparent);
+}
+
+.character-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><rect x="0" y="0" width="5" height="5" fill="rgba(68,136,255,0.1)"/><rect x="5" y="5" width="5" height="5" fill="rgba(68,136,255,0.1)"/><rect x="10" y="0" width="5" height="5" fill="rgba(68,136,255,0.1)"/><rect x="15" y="5" width="5" height="5" fill="rgba(68,136,255,0.1)"/></svg>');
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid rgba(68, 136, 255, 0.3);
+    box-shadow: inset 0 0 10px rgba(68, 136, 255, 0.2);
+}
+
+.dice-section {
+    flex: 1;
+    text-align: center;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid rgba(68, 136, 255, 0.3);
+    background-color: rgba(20, 30, 50, 0.6);
+    box-shadow: inset 0 0 10px rgba(68, 136, 255, 0.2);
+    margin: 0 15px;
+}
+
+.ability-section {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid rgba(68, 136, 255, 0.3);
+    background-color: rgba(20, 30, 50, 0.6);
+    box-shadow: inset 0 0 10px rgba(68, 136, 255, 0.2);
+}
+
+.message-section {
+    flex: 2;
+    border-left: 1px solid rgba(68, 136, 255, 0.5);
+    padding: 10px 15px;
+    background-color: rgba(20, 30, 50, 0.6);
+    border-radius: 5px;
+    border: 1px solid rgba(68, 136, 255, 0.3);
+    box-shadow: inset 0 0 10px rgba(68, 136, 255, 0.2);
+}
+
+.message-header {
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #ffcc00;
+    margin-bottom: 8px;
+    text-align: center;
+    font-weight: bold;
+    text-shadow: 0 0 5px rgba(255, 204, 0, 0.5);
+    padding-bottom: 5px;
+    border-bottom: 1px solid rgba(68, 136, 255, 0.3);
+}
+
+.section-header {
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #ffcc00;
+    margin-bottom: 8px;
+    text-align: center;
+    font-weight: bold;
+    text-shadow: 0 0 5px rgba(255, 204, 0, 0.5);
+    padding-bottom: 5px;
+    border-bottom: 1px solid rgba(68, 136, 255, 0.3);
+}
+
+#character-type, #health-container, #action-points-container {
+    margin-bottom: 8px;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #ccddff;
+    display: flex;
+    align-items: center;
+}
+
+#character-type::before, #health-container::before, #action-points-container::before {
+    content: '';
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background-color: #4488ff;
+    margin-right: 6px;
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+}
+
+.stat-icon {
+    width: 18px;
+    height: 18px;
+    margin-right: 8px;
+    display: inline-block;
+    border-radius: 3px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    position: relative;
+}
+
+.char-icon {
+    background: linear-gradient(135deg, #4488ff, #2266dd);
+}
+
+.health-icon {
+    background: linear-gradient(135deg, #33ff66, #22cc44);
+}
+
+.ap-icon {
+    background: linear-gradient(135deg, #ff6633, #cc4422);
+}
+
+#character-type-value, #health-value, #action-points-value {
+    font-weight: bold;
+    color: #ffcc00;
+    text-shadow: 0 0 5px rgba(255, 204, 0, 0.5);
+}
+
+#health-value {
+    color: #33ff66;
+    text-shadow: 0 0 5px rgba(51, 255, 102, 0.5);
+}
+
+#action-points-value {
+    color: #ff6633;
+    text-shadow: 0 0 5px rgba(255, 102, 51, 0.5);
+}
+
+#roll-dice, #use-special {
+    background: linear-gradient(to bottom, #4488ff, #2266dd);
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-bottom: 10px;
+    transition: all 0.2s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 12px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3), 0 0 10px rgba(68, 136, 255, 0.5);
+}
+
+#roll-dice::before, #use-special::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: 0.5s;
+}
+
+#roll-dice:hover::before, #use-special:hover::before {
+    left: 100%;
+}
+
+#roll-dice:hover, #use-special:hover {
+    background: linear-gradient(to bottom, #55aaff, #3388ff);
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3), 0 0 15px rgba(68, 136, 255, 0.7);
+}
+
+#roll-dice:disabled, #use-special:disabled {
+    background: linear-gradient(to bottom, #888, #666);
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+}
+
+#dice-result-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#dice-result {
+    font-size: 30px;
+    height: 36px;
+    margin-bottom: 2px;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    background-color: rgba(10, 15, 25, 0.4);
+    border-radius: 4px;
+    padding: 0 10px;
+    min-width: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#dice-label {
+    font-size: 12px;
+    color: #ccddff;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+#game-messages {
+    font-size: 14px;
+    line-height: 1.5;
+    max-height: 70px;
+    overflow-y: auto;
+    padding: 8px 12px;
+    color: #ccddff;
+    background-color: rgba(10, 15, 25, 0.4);
+    border-radius: 4px;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
+    scrollbar-width: thin;
+    scrollbar-color: #4488ff rgba(10, 15, 25, 0.4);
+}
+
+#game-messages::-webkit-scrollbar {
+    width: 6px;
+}
+
+#game-messages::-webkit-scrollbar-track {
+    background: rgba(10, 15, 25, 0.4);
+}
+
+#game-messages::-webkit-scrollbar-thumb {
+    background-color: #4488ff;
+    border-radius: 10px;
+}
+
+/* Media queries for responsive action bar */
+@media (max-width: 768px) {
+    #action-bar {
+        flex-direction: column;
+        padding: 10px 15px;
+    }
+    
+    .action-section {
+        padding: 8px 0;
+        margin-bottom: 10px;
+    }
+    
+    .message-section {
+        border-left: none;
+        padding-left: 0;
+    }
+}
+
+#ability-description {
+    font-size: 12px;
+    color: #ccddff;
+    text-align: center;
+    margin-top: 5px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Hyperspace effect canvas */
+#hyperspace-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background-color: #000;
+} 

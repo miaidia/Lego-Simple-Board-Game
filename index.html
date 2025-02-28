@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LEGO Star Wars RPG</title>
+    <link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+    <div id="game-container">
+        <canvas id="game-canvas"></canvas>
+        
+        <!-- Character Selection UI -->
+        <div id="character-selection" class="overlay">
+            <!-- Hyperspace/Lightspeed Effect -->
+            <canvas id="hyperspace-canvas"></canvas>
+            
+            <div class="selection-container">
+                <h2>Choose Your Character</h2>
+                <div class="character-options">
+                    <div class="character-option" data-type="jedi">
+                        <div class="character-icon jedi"></div>
+                        <h3>Jedi</h3>
+                        <p>Special: Move 2 spaces</p>
+                    </div>
+                    <div class="character-option" data-type="droid">
+                        <div class="character-icon droid"></div>
+                        <h3>Droid</h3>
+                        <p>Special: Repair 1 health</p>
+                    </div>
+                    <div class="character-option" data-type="clone">
+                        <div class="character-icon clone"></div>
+                        <h3>Clone Trooper</h3>
+                        <p>Special: Range attack</p>
+                    </div>
+                </div>
+                <button id="start-game">Start Mission</button>
+            </div>
+        </div>
+        
+        <!-- Action Bar UI (repositioned from top-right to bottom) -->
+        <div id="action-bar">
+            <div class="action-section character-info">
+                <div class="section-header">Character Stats</div>
+                <div id="character-type"><span class="stat-icon char-icon"></span>Class: <span id="character-type-value">Jedi</span></div>
+                <div id="health-container"><span class="stat-icon health-icon"></span>Health: <span id="health-value">3</span></div>
+                <div id="action-points-container"><span class="stat-icon ap-icon"></span>AP: <span id="action-points-value">2</span></div>
+            </div>
+            
+            <div class="action-section dice-section">
+                <div class="section-header">Actions</div>
+                <button id="roll-dice">Roll Dice</button>
+                <div id="dice-result-container">
+                    <div id="dice-result"></div>
+                    <div id="dice-label">Result</div>
+                </div>
+            </div>
+            
+            <div class="action-section ability-section">
+                <div class="section-header">Special</div>
+                <button id="use-special">Use Ability</button>
+                <div id="ability-description"></div>
+            </div>
+            
+            <div class="action-section message-section">
+                <div class="message-header">Mission Log</div>
+                <div id="game-messages"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Load libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.min.js"></script>
+
+    <!-- Load our game scripts -->
+    <script src="js/config.js"></script>
+    <script src="js/engine/renderer.js"></script>
+    <script src="js/engine/scene.js"></script>
+    <script src="js/engine/controls.js"></script>
+    <script src="js/game/board.js"></script>
+    <script src="js/game/character.js"></script>
+    <script src="js/game/dice.js"></script>
+    <script src="js/game/turn.js"></script>
+    <script src="js/ui/hud.js"></script>
+    <script src="js/ui/hyperspace.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html> 
